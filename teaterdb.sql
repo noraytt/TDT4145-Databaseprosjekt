@@ -1,9 +1,8 @@
 CREATE TABLE Teater (
-	TeaterID 	INTEGER NOT NULL,
+	TeaterID 	INTEGER PRIMARY KEY,
 	Navn 		VARCHAR (30) NOT NULL,
 	DirektoerID 	INTEGER NOT NULL,
 
-	CONSTRAINT Teater_PK PRIMARY KEY (TeaterID),
 	CONSTRAINT Teater_FK FOREIGN KEY (DirektoerID) REFERENCES Ansatt(Identifikator)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION);
@@ -11,12 +10,11 @@ CREATE TABLE Teater (
 
 
 CREATE TABLE Sal (
-	SalID 		INTEGER NOT NULL,
+	SalID 		INTEGER PRIMARY KEY,
 	Navn 		VARCHAR (30)NOT NULL,
 	Kapasitet	INTEGER NOT NULL,
 	TeaterID 	INTEGER NOT NULL,
 
-	CONSTRAINT Sal_PK PRIMARY KEY (SalID),
 	CONSTRAINT Sal_FK FOREIGN KEY (TeaterID) REFERENCES Teater(TeaterID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION);
@@ -26,13 +24,12 @@ CREATE TABLE Sal (
 		
 
 CREATE TABLE Teaterstykke (
-	TeaterstykkeID		INTEGER NOT NULL,
+	TeaterstykkeID		INTEGER PRIMARY KEY,
 	Navn 				VARCHAR (100) NOT NULL,
 	Starttid			TIME NOT NULL,
 	SalID 				INTEGER NOT NULL,
 	BillettklasseID		INTEGER NOT NULL,
 
-	CONSTRAINT Teaterstykke_PK PRIMARY KEY (TeaterstykkeID),
 	CONSTRAINT Teaterstykke_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION,
@@ -43,13 +40,11 @@ CREATE TABLE Teaterstykke (
 
 
 CREATE TABLE Ansatt (
-	Identifikator	INTEGER NOT NULL,
+	Identifikator	INTEGER PRIMARY KEY,
 	Navn 			VARCHAR (30) NOT NULL,
 	Epost			VARCHAR (30) NOT NULL,
 	Ansattstatus	VARCHAR (20) DEFAULT “Fast” CHECK (Ansattstatus IN ('Fast', 'Midlertidig', 'Innleid', 'Frivillig/Statist')),
-
-	CONSTRAINT Ansatt_PK PRIMARY KEY (Identifikator));
-
+);
 
 
 
@@ -67,10 +62,9 @@ CREATE TABLE Akt (
 		
 
 CREATE TABLE Rolle (
-	RolleID			INTEGER NOT NULL,
-	Navn			VARCHAR (50)NOT NULL,
+	RolleID			INTEGER PRIMARY KEY,
+	Navn			VARCHAR (50)NOT NULL);
 
-	CONSTRAINT Rolle_PK PRIMARY KEY (RolleID));
 		
 CREATE TABLE AktRolle (
 	RolleID			INTEGER NOT NULL,
@@ -97,13 +91,12 @@ CREATE TABLE Forestilling (
 		ON DELETE NO ACTION);
 
 CREATE TABLE Stol (
-	StolID			INTEGER NOT NULL,
+	StolID			INTEGER PRIMARY KEY,
 	StolNR			INTEGER NOT NULL,
 	RadNR			INTEGER NOT NULL,
 	Type			VARCHAR (20) CHECK (Type IN ('Parkett', 'Balkong', 'Galleri')) NOT NULL,
 	SalID			INTEGER NOT NULL,
 
-	CONSTRAINT Stol_PK PRIMARY KEY (StolID),
 	CONSTRAINT Stol_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION);
@@ -111,7 +104,7 @@ CREATE TABLE Stol (
 
 
 CREATE TABLE Billett (
-	BillettID		INTEGER NOT NULL,
+	BillettID		INTEGER PRIMARY KEY,
 	StolID			INTEGER NOT NULL,
 	Prisklasse 		VARCHAR (20) DEFAULT 'Ordinaer' CHECK (Prisklasse IN ('Ordinaer', 'Honnoer', 'Student', 'Barn', 'Over10Ordinaer', 'Over10Honnoer')),
 	Salgsstatus		BOOLEAN DEFAULT 0,
@@ -119,7 +112,6 @@ CREATE TABLE Billett (
 	ForestillingID	INTEGER NOT NULL,
 
 
-	CONSTRAINT Billett_PK PRIMARY KEY (BillettID),
 	CONSTRAINT BillettT_FK FOREIGN KEY (StolID) REFERENCES Stol(StolID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION,
@@ -132,19 +124,18 @@ CREATE TABLE Billett (
 		
 
 CREATE TABLE Kunde (
-	KundeID			INTEGER NOT NULL,
+	KundeID			INTEGER PRIMARY KEY,
 	Navn			VARCHAR (50) NOT NULL,
 	Mobilnummer		INTEGER NOT NULL,
-	Adresse			VARCHAR (100) NOT NULL,
-
-	CONSTRAINT Kunde_PK PRIMARY KEY (KundeID));
+	Adresse			VARCHAR (100) NOT NULL
+);
 
 	
 
 
 
 CREATE TABLE Billettpris (
-	BillettklasseID		INTEGER NOT NULL,
+	BillettklasseID		INTEGER PRIMARY KEY,
 	OrdinaerP			INTEGER NOT NULL,
 	HonnoerP				INTEGER,
 	StudentP			INTEGER,
@@ -153,7 +144,6 @@ CREATE TABLE Billettpris (
 	Gruppe10HonnoerP		INTEGER,
 	TeaterstykkeID		INTEGER NOT NULL,
 
-	CONSTRAINT Billettpris_PK PRIMARY KEY (BillettklasseID),
 	CONSTRAINT Billettpris_FK FOREIGN KEY (TeaterstykkeID) REFERENCES Teaterstykke(TeaterstykkeID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION);
@@ -163,13 +153,12 @@ CREATE TABLE Billettpris (
 
 
 CREATE TABLE Arbeidsoppgave (
-	OppgaveNR			INTEGER NOT NULL,
+	OppgaveNR			INTEGER PRIMARY KEY,
 	Navn				VARCHAR (200) NOT NULL,
 	TeaterstykkeID		INTEGER NOT NULL,
 	Identifikator		INTEGER NOT NULL,
 
 
-	CONSTRAINT Arbeidsoppgave_PK PRIMARY KEY (OppgaveNR),
 	CONSTRAINT Arbeidsoppgave_FK FOREIGN KEY (TeaterstykkeID) REFERENCES Teaterstykke(TeaterstykkeID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION,
