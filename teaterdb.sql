@@ -41,8 +41,8 @@ CREATE TABLE Teaterstykke (
 
 CREATE TABLE Ansatt (
 	Identifikator	INTEGER PRIMARY KEY,
-	Navn 			VARCHAR (30) NOT NULL,
-	Epost			VARCHAR (30) NOT NULL,
+	Navn 			VARCHAR (50) NOT NULL,
+	Epost			VARCHAR (50),
 	Ansattstatus	VARCHAR (20) DEFAULT “Fast” CHECK (Ansattstatus IN ('Fast', 'Midlertidig', 'Innleid', 'Frivillig/Statist')),
 );
 
@@ -94,7 +94,7 @@ CREATE TABLE Stol (
 	StolID			INTEGER PRIMARY KEY,
 	StolNR			INTEGER NOT NULL,
 	RadNR			INTEGER NOT NULL,
-	Type			VARCHAR (20) CHECK (Type IN ('Parkett', 'Balkong', 'Galleri')) NOT NULL,
+	Typen			VARCHAR (20) CHECK (Typen IN ('Parkett', 'Balkong', 'Galleri')) NOT NULL,
 	SalID			INTEGER NOT NULL,
 
 	CONSTRAINT Stol_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
