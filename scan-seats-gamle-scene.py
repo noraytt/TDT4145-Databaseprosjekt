@@ -17,7 +17,6 @@ try:
     with open(filePath, 'r') as file:
         type = None
         for line in file:
-            seatNo = 1
             
             if "Dato" in line:
                 words = line.split()
@@ -35,12 +34,19 @@ try:
                 type = "Parkett"
                 lineNo = 10
             
-            else:  
+            else:
+                seatNo = 1  
                 stringLength = len(line)
                 slicedLine = line[stringLength::-1]
                 for seat in slicedLine:
                     if seat == 1: #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
-                        cursor.execute("UPDATE Billett SET Billettstatus = 1 WHERE (Billett.StolID = (SELECT StolID FROM Stol WHERE StolNR = :seatNo AND RadNR = :lineNo AND Typen = :plassering)) AND Billett.ForestillingsID = ()", {"seatNo": seatNo, "lineNo": lineNo, "plassering": type})
+                        cursor.execute("""
+                            UPDATE Billett 
+                            SET Salgsstatus = 1 
+                            WHERE (Billett.StolID = (SELECT StolID 
+                                                    FROM Stol 
+                                                    WHERE StolNR = :seatNo AND RadNR = :lineNo AND Typen = :plassering)) AND Billett.ForestillingsID = ()
+                        """, {"seatNo": seatNo, "lineNo": lineNo, "plassering": type})
                     seatNo += 1
                 lineNo -= 1
 
@@ -50,4 +56,5 @@ except FileNotFoundError:
 except Exception as e:
     print(f"An error occured: {e}")
 
+con.commit()
 con.close()
