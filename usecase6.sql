@@ -5,6 +5,6 @@ sortert på antall plasser i synkende rekkefølge.*/
 
 SELECT COUNT BillettID AS AntallSolgt, Forestilling.Dato, Teaterstykke.Navn
 FROM (Billett INNER JOIN Forestilling ON Billett.ForestillingID = Forestilling.ForestillingID) INNER JOIN Teaterstykke ON Teaterstykke.TeaterstykkeID = Billett.TeaterstykkeID
-WHERE Billett.Salgsstatus = 1
+WHERE Billett.Salgsstatus = 1 AND AntallSolgt > 0
 GROUP BY TeaterstykkeID, ForestillingID
 ORDER BY AntallSolgt DESC

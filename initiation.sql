@@ -1,8 +1,8 @@
 /* Sette inn:
--saler
--stoler
--teaterstykker
--forestillinger
+-saler - GOOD
+-stoler - NOT GOOD
+-teaterstykker - GOOD
+-forestillinger - GOOD
 -akter
 -roller
 -skuespillere
@@ -80,24 +80,6 @@ VALUES ("Hovedscenen", 516, (SELECT TeaterID FROM Teater WHERE Teater.Navn = "Tr
       ("Gamle Scene", 332, (SELECT TeaterID FROM Teater WHERE Teater.Navn = "Trondelag Teater"));
 
 
-/*Script to insert chairs into Hovedscenen*/
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, RadNR, "Parkett", (SELECT SalID FROM Sal WHERE Sal.Navn = "Hovedscenen")
-FROM (
-  SELECT  
-    StolID AS StolNR,
-    (StolID-1) / 24 + 1 AS RadNR
-  /* FROM sqlite_master */
-  LIMIT 504
-);
-
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 19, "Galleri", (SELECT SalID FROM Sal WHERE Sal.Navn = "Hovedscenen")
-FROM (
-  SELECT  
-    StolID AS StolNR,
-  LIMIT 524
-);
 
 
 /*Script to insert chairs into Gamle Scene*/
