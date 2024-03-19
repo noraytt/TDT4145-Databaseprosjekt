@@ -28,12 +28,8 @@ CREATE TABLE Teaterstykke (
 	Navn 				VARCHAR (100) NOT NULL,
 	Starttid			TIME NOT NULL,
 	SalID 				INTEGER NOT NULL,
-	BillettklasseID		INTEGER NOT NULL,
 
 	CONSTRAINT Teaterstykke_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
-		ON UPDATE CASCADE
-		ON DELETE NO ACTION,
-	CONSTRAINT Teaterstykke_FK FOREIGN KEY (BillettklasseID) REFERENCES Billettpris(BillettklasseID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION);
 
@@ -43,7 +39,7 @@ CREATE TABLE Ansatt (
 	Identifikator	INTEGER PRIMARY KEY,
 	Navn 			VARCHAR (50) NOT NULL,
 	Epost			VARCHAR (50),
-	Ansattstatus	VARCHAR (20) DEFAULT “Fast” CHECK (Ansattstatus IN ('Fast', 'Midlertidig', 'Innleid', 'Frivillig/Statist')),
+	Ansattstatus	VARCHAR (20) DEFAULT “Fast” CHECK (Ansattstatus IN ('Fast', 'Midlertidig', 'Innleid', 'Frivillig/Statist'))
 );
 
 
@@ -175,7 +171,7 @@ CREATE TABLE Skuespillere (
 	SkuespillerID		INTEGER NOT NULL,
 
 	CONSTRAINT Skuespillere_PK PRIMARY KEY (RolleID, SkuespillerID),
-	CONSTRAINT Skuespillere_FK FOREIGN KEY (RolleID) REFERENCES Roller(RolleID)
+	CONSTRAINT Skuespillere_FK FOREIGN KEY (RolleID) REFERENCES Rolle(RolleID)
 		ON UPDATE CASCADE
 		ON DELETE NO ACTION,
 	CONSTRAINT Rolle_FK FOREIGN KEY (SkuespillerID) REFERENCES Ansatt(Identifikator)
