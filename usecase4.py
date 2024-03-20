@@ -2,7 +2,7 @@ import sqlite3 as sql
 from datetime import datetime as dt
 import sys
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 # Checking if the user has specified the date to be scanned as a command-line argument.
@@ -21,7 +21,7 @@ except Exception as e:
 
 # Find the shows on the specified date
 cursor.execute("""
-    SELECT ForestillingsID, TeaterstykkeID, Navn, SalID, Starttid
+    SELECT ForestillingID, TeaterstykkeID, Navn, SalID, Starttid
     FROM Forestilling NATURAL JOIN Teaterstykke
     WHERE Dato = :date
 """, {"date": date})
@@ -33,17 +33,17 @@ if shows != []:
 # Find number of sold tickets for each show
 for show in shows:
     cursor.execute("""
-        SELECT COUNT(*)
+        SELECT COUNT(BillettID) AS AntallSolgt
         FROM Billett
-        WHERE ForestillingsID = :showID TeaterstykkeID = :playID AND Salgsstatus = 1
+        WHERE ForestillingID = :showID AND TeaterstykkeID = :playID AND Salgsstatus = 1
     """, {"showID": show[0], "playID": show[1]})
     soldTickets = cursor.fetchone()
     cursor.execute("""
         SELECT Navn
         FROM Sal
         WHERE SalID = :salID
-    """, {"salID": show[2]})
-    auditoriumName = cursor.fetchone()
+    """, {"salID": show[3]})
+    auditoriumName = cursor.fetchone()[0]
     print(f"The show {show[2]}, in auditorium {auditoriumName}, performed on {date}, time: {show[4]} has {soldTickets[0]} sold tickets")
 
 con.close()

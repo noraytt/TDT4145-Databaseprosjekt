@@ -7,7 +7,7 @@ import sqlite3 as sql
 from datetime import datetime as dt
 import sys
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 if len(sys.argv) < 3:
@@ -20,7 +20,7 @@ if (sys.argv[1][0].islower() or sys.argv[2][0].islower()):
 
 
 name = ""
-for i in (len(sys.argv) - 1):
+for i in range(len(sys.argv) - 1):
     name = name + sys.argv[i+1] + ' '
 
 name = name[:-1]
@@ -47,9 +47,9 @@ cursor.execute("""
      """, {'navn' : name})
 
 coactors = cursor.fetchall()
-
-print(f"Skuespiller {name} har spilt i {coactors[0][2]} med:")
-for coactor in coactors:
-    print(coactor[1])
+if len(coactors) > 0:
+    print(f"Skuespiller {name} har spilt i {coactors[0][2]} med:")
+    for coactor in coactors:
+        print(coactor[1])
 
 con.close()

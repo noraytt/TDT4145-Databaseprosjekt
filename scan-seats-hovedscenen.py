@@ -1,7 +1,7 @@
 import sys
 import sqlite3 as sql
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 # Checking if the user has specified the textfile to be scanned as a command-line argument
@@ -16,7 +16,7 @@ filePath = sys.argv[1]
 try:
     with open(filePath, 'r') as file:
         type = None
-        lineNo = 18
+        lineNo = 19
         for line in file:
             
             if "Dato" in line:
@@ -24,33 +24,58 @@ try:
                 for word in words:
                     if len(word) == 10 and word[4] == "-" and word[7] == "-":
                         date = word
+                print(date)
+                continue
             
             if "Galleri" in line:
-                type = "Galleri"    #HVORDAN BLIR DET MED RADNR HER EGT? TRODDE VI IKKE GA DISSE SETENE RADNR... I SÅ FALL, HVA GJØR JEG I "UPDATE"-SETNINGEN
-                seatNo = 520
-            if "Parkett" in line:
-                type = "Parkett"
-                seatNo = 477
+                typen = 'Galleri'    #HVORDAN BLIR DET MED RADNR HER EGT? TRODDE VI IKKE GA DISSE SETENE RADNR... I SÅ FALL, HVA GJØR JEG I "UPDATE"-SETNINGEN
+                seatNo = 524
+                print(typen)
+            elif "Parkett" in line:
+                typen = 'Parkett'
+                seatNo = 504
+                print(typen)
             
             else:   
                 stringLength = len(line)
-                slicedLine = line[stringLength::-1]
-                for seat in slicedLine:
-                    if seat == 1: #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL OG IKKE BARE STOLID, FORTSETT UNDER
-                        cursor.execute("""
-                            UPDATE Billett 
-                            SET Salgsstatus = 1 
-                            WHERE (Billett.StolID = (SELECT StolID 
-                                                    FROM Stol 
-                                                    WHERE StolNR = :seatNo AND RadNR = :lineNo AND Typen = :plassering)) AND Billett.ForestillingsID = ()
-                        """, {"seatNo": seatNo, "lineNo": lineNo, "plassering": type})   
+                slicedLine = line[stringLength::-1].strip()
+                print(line)
+                if stringLength < 7:
+                    lineNo = 19
+                else:
+                    lineNo = lineNo - 1
+                print(seatNo, lineNo)
 
-                    seatNo += 1
-                if type == "Parkett":
-                    lineNo -= 1
-                    seatNo -= 55
-                if type == "balkong":
-                    seatNo -= 9
+                for seat in slicedLine:
+                    if seat == '1': #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
+                        cursor.execute('''
+                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
+                            VALUES ((SELECT StolID 
+                                       FROM Stol
+                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
+                                       1, 2, (SELECT ForestillingID 
+                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
+                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 1));
+                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+                        print(f"Sete {seatNo} {lineNo} satt inn")
+                    elif seat == '0':
+                        cursor.execute('''
+                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
+                            VALUES ((SELECT StolID 
+                                       FROM Stol 
+                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
+                                       0, 2, (SELECT ForestillingID 
+                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
+                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 1));
+                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+                        print(f"Sete {seatNo} {lineNo} satt inn")                        
+
+                    seatNo = seatNo-1
+                # if type == "Parkett":
+                #     lineNo -= 1
+                #     seatNo -= 55
+                # if type == "balkong":
+                #     seatNo -= 9
 
 # Error handling
 except FileNotFoundError:

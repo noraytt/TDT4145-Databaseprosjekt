@@ -3,8 +3,9 @@ hvilke forestillinger som har solgt best.
 Skriv ut navn på forestilling og dato og antall solgte plasser 
 sortert på antall plasser i synkende rekkefølge.*/
 
-SELECT COUNT BillettID AS AntallSolgt, Forestilling.Dato, Teaterstykke.Navn
+SELECT COUNT(BillettID) AS AntallSolgt, Forestilling.Dato, Teaterstykke.Navn
 FROM (Billett INNER JOIN Forestilling ON Billett.ForestillingID = Forestilling.ForestillingID) INNER JOIN Teaterstykke ON Teaterstykke.TeaterstykkeID = Billett.TeaterstykkeID
-WHERE Billett.Salgsstatus = 1 AND AntallSolgt > 0
-GROUP BY TeaterstykkeID, ForestillingID
-ORDER BY AntallSolgt DESC
+WHERE Billett.Salgsstatus = 1
+GROUP BY Forestilling.TeaterstykkeID, Forestilling.ForestillingID
+HAVING COUNT(BillettID) > 0
+ORDER BY AntallSolgt DESC;

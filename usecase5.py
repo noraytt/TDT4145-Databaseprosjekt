@@ -2,7 +2,7 @@ import sqlite3 as sql
 from datetime import datetime as dt
 import sys
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 # # Checking if the user has specified the date to be scanned as a command-line argument.

@@ -73,154 +73,21 @@ VALUES (1, 'Arturo Scotti', NULL, 'Fast'),
       (59, 'Elisabeth Egseth Hansen', NULL, 'Fast');
 
 INSERT INTO Teater (Navn, DirektoerID)
-VALUES ("Trondelag Teater", (SELECT Identifikator FROM ANSATT WHERE Ansatt.Navn = 'Elisabeth Egseth Hansen'));
+VALUES ('Trondelag Teater', (SELECT Identifikator FROM ANSATT WHERE Ansatt.Navn = 'Elisabeth Egseth Hansen'));
 
 INSERT INTO Sal (Navn, Kapasitet, TeaterID)
-VALUES ("Hovedscenen", 516, (SELECT TeaterID FROM Teater WHERE Teater.Navn = "Trondelag Teater")),
-      ("Gamle Scene", 332, (SELECT TeaterID FROM Teater WHERE Teater.Navn = "Trondelag Teater"));
+VALUES ('Hovedscenen', 516, (SELECT TeaterID FROM Teater WHERE Teater.Navn = 'Trondelag Teater')),
+      ('Gamle Scene', 332, (SELECT TeaterID FROM Teater WHERE Teater.Navn = 'Trondelag Teater'));
 
-
-
-
-/*Script to insert chairs into Gamle Scene*/
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 1, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-524)+1 AS StolNR,
-  LIMIT 542
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 2, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-542)+1 AS StolNR,
-  LIMIT 558
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 3, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-558)+1 AS StolNR,
-  LIMIT 575
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 4, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-575)+1 AS StolNR,
-  LIMIT 593
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 5, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-593)+1 AS StolNR,
-  LIMIT 611
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 6, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-611)+1 AS StolNR,
-  LIMIT 628
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 7, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-628)+1 AS StolNR,
-  LIMIT 646
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 8, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-636)+1 AS StolNR,
-  LIMIT 663
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 9, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-663)+1 AS StolNR,
-  LIMIT 680
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 10, "Parkett", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-680)+1 AS StolNR,
-  LIMIT 694
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 1, "Balkong", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-694)+1 AS StolNR,
-  LIMIT 722
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 2, "Balkong", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-722)+1 AS StolNR,
-  LIMIT 749
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 3, "Balkong", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-749)+1 AS StolNR,
-  LIMIT 771
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 4, "Balkong", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-771)+1 AS StolNR,
-  LIMIT 788
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 1, "Galleri", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-788)+1 AS StolNR,
-  LIMIT 821
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 1, "Galleri", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-821)+1 AS StolNR,
-  LIMIT 839
-);
-INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
-SELECT StolNR, 1, "Galleri", (SELECT Sal.SalID WHERE Sal.Navn = "Gamle Scene")
-FROM (
-  SELECT  
-    (StolID-839)+1 AS StolNR,
-  LIMIT 856
-);
-
-
-/*Script to remove non-existing chairs*/
-DELETE FROM Stol
-WHERE Stol.StolNR < 471 AND Stol.StolNR > 466 AND 
-      SalID = (SELECT Sal.SalID WHERE Sal.Navn = "Hovedscenen");
-
-DELETE FROM Stol
-WHERE Stol.StolNR < 499 AND Stol.StolNR > 494 AND 
-      SalID = (SELECT Sal.SalID WHERE Sal.Navn = "Hovedscenen");
 
 
 
 /* Inserting the two plays*/
 INSERT INTO Teaterstykke (Navn, Starttid, SalID)
-VALUES ("Kongsemnene", '19:00:00', 
-        (SELECT SalID FROM Sal WHERE Sal.Navn = "Hovedscenen")),
-        ("Stoerst av alt er kjaerligheten", '18:30:00', 
-        (SELECT SalID FROM Sal WHERE Sal.Navn = "Gamle Scene"));
+VALUES ('Kongsemnene', '19:00:00', 
+        (SELECT SalID FROM Sal WHERE Sal.Navn = 'Hovedscenen')),
+        ('Stoerst av alt er kjaerligheten', '18:30:00', 
+        (SELECT SalID FROM Sal WHERE Sal.Navn = 'Gamle Scene'));
 
 INSERT INTO Billettpris(BillettklasseID, OrdinaerP, HonnoerP, StudentP, BarneP, Gruppe10P, Gruppe10HonnoerP, TeaterstykkeID)
 VALUES (1, 450, 380, 280, NULL, 320, 270, (SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene')),
@@ -230,146 +97,144 @@ VALUES (1, 450, 380, 280, NULL, 320, 270, (SELECT TeaterstykkeID FROM Teaterstyk
 
 /* Insert the different times of the playes*/
 INSERT INTO Forestilling (TeaterstykkeID, ForestillingID, Dato)
-VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 
+VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 
         1, '2024-02-01'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 
         2, '2024-02-02'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 
         3, '2024-02-03'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 
         4, '2024-02-05'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 
         5, '2024-02-06');
 
 INSERT INTO Forestilling (TeaterstykkeID, ForestillingID, Dato)
-VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         1, '2024-02-03'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         2, '2024-02-06'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         3, '2024-02-07'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         4, '2024-02-12'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         5, '2024-02-13'),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 
         6, '2024-02-14');
 
 
 /* Insert acts */
 INSERT INTO Akt (TeaterstykkeID, AktNR, Navn)
-VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Kongsemnene"), 
+VALUES ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene'), 
         1, NULL),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene'), 
         2, NULL),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene'), 
         3, NULL),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene'), 
         4, NULL),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Kongsemnene"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Kongsemnene'), 
         5, NULL),
-        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = "Stoerst av alt er kjaerligheten"), 
+        ((SELECT TeaterstykkeID FROM Teaterstykke WHERE Teaterstykke.Navn = 'Stoerst av alt er kjaerligheten'), 
         1, NULL);
 
 /* Inserting roles for Kongsemnd*/
 INSERT INTO Rolle (Navn)
-VALUES ("Håkon Håkonsen"),
-      ("Dagfinn Bonde"),
-      ("Jatgeir Skald"),
-      ("Sigrid"),
-      ("Ingeborg"),
-      ("Skule Jarl"),
-      ("Inga frå Vartejg"),
-      ("Paal Flida"),
-      ("Ragnhild"),
-      ("Gregorius Jonsson"),
-      ("Margrete"),
-      ("Biskop Nikolas"),
-      ("Peter"),
+VALUES ('Håkon Håkonsen'),
+      ('Dagfinn Bonde'),
+      ('Jatgeir Skald'),
+      ('Sigrid'),
+      ('Ingeborg'),
+      ('Skule Jarl'),
+      ('Inga frå Vartejg'),
+      ('Paal Flida'),
+      ('Ragnhild'),
+      ('Gregorius Jonsson'),
+      ('Margrete'),
+      ('Biskop Nikolas'),
+      ('Peter'),
       /*Stoerst av alt*/
-      ("Sunniva Du Mond Nordal"),
-      ("Jo Saberniak"),
-      ("Marte M. Steinholt"),
-      ("Tor Ivar Hagen"),
-      ("Trond-Ove Skrødal"),
-      ("Natalie Grøndahl Tangen"),
-      ("Åsmund Flaten");
+      ('Sunniva Du Mond Nordal'),
+      ('Jo Saberniak'),
+      ('Marte M. Steinholt'),
+      ('Tor Ivar Hagen'),
+      ('Trond-Ove Skrødal'),
+      ('Natalie Grøndahl Tangen'),
+      ('Åsmund Flaten');
 
 
 
 
 /* Inserting akt- for Kongsemd */
 INSERT INTO AktRolle (RolleID, TeaterstykkeID, AktNR)
-VALUES ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Håkon Håkonsen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Håkon Håkonsen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Håkon Håkonsen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Håkon Håkonsen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Håkon Håkonsen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+VALUES ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Håkon Håkonsen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Håkon Håkonsen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Håkon Håkonsen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Håkon Håkonsen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Håkon Håkonsen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Dagfinn Bonde"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Dagfinn Bonde"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Dagfinn Bonde"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Dagfinn Bonde"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Dagfinn Bonde"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Dagfinn Bonde'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Dagfinn Bonde'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Dagfinn Bonde'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Dagfinn Bonde'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Dagfinn Bonde'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Jatgeir Skald"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Jatgeir Skald'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Sigrid"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Sigrid"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Sigrid"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Sigrid'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Sigrid'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Sigrid'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Ingeborg"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Ingeborg'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Guttorm Ingesson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Skule Jarl'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Skule Jarl'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Skule Jarl'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Skule Jarl'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Skule Jarl'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Skule Jarl"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Skule Jarl"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Skule Jarl"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Skule Jarl"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Skule Jarl"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Inga frå Vartejg'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Inga frå Vartejg'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Inga frå Vartejg"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Inga frå Vartejg"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Paal Flida'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Paal Flida'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Paal Flida'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Paal Flida'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Paal Flida'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Paal Flida"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Paal Flida"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Paal Flida"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Paal Flida"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Paal Flida"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Ragnhild'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Ragnhild'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Ragnhild"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Ragnhild"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Gregorius Jonsson'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Gregorius Jonsson'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Gregorius Jonsson'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Gregorius Jonsson'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Gregorius Jonsson'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Gregorius Jonsson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Gregorius Jonsson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Gregorius Jonsson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Gregorius Jonsson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Gregorius Jonsson"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Margrete'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Margrete'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Margrete'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Margrete'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Margrete'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Margrete"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Margrete"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Margrete"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Margrete"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Margrete"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Biskop Nikolas'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Biskop Nikolas'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 2),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Biskop Nikolas'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
 
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Biskop Nikolas"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Biskop Nikolas"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 2),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Biskop Nikolas"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Peter"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 3),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Peter"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 4),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Peter"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Kongsemnene"), 5);
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Peter'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 3),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Peter'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 4),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Peter'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Kongsemnene'), 5);
 
 
 /* Inserting akt-rolle for Stoerst av alt */
 INSERT INTO AktRolle (RolleID, TeaterstykkeID, AktNR)
-VALUES ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Sunniva Du Mond Nordal"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Jo Saberniak"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Marte M. Steinholt"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Tor Ivar Hagen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Trond-Ove Skrødal"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Natalie Grøndahl Tangen"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1),
-      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = "Åsmund Flaten"), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = "Stoerst av alt er kjaerligheten"), 1);
+VALUES ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Sunniva Du Mond Nordal'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Jo Saberniak'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Marte M. Steinholt'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Tor Ivar Hagen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Trond-Ove Skrødal'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Natalie Grøndahl Tangen'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1),
+      ((SELECT RolleID FROM Rolle WHERE Rolle.Navn = 'Åsmund Flaten'), (SELECT TeaterstykkeID FROM Teaterstykke WHERE Navn = 'Stoerst av alt er kjaerligheten'), 1);
 
 
 

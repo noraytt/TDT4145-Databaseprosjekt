@@ -1,7 +1,7 @@
 import sys
 import sqlite3 as sql
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 # Checking if the user has specified the textfile to be scanned as a command-line argument
@@ -15,7 +15,7 @@ filePath = sys.argv[1]
 # Open textfile in read-mode and scan the contents of the file, one line at a time 
 try:
     with open(filePath, 'r') as file:
-        type = None
+        typen = None
         for line in file:
             
             if "Dato" in line:
@@ -23,30 +23,48 @@ try:
                 for word in words:
                     if len(word) == 10 and word[4] == "-" and word[7] == "-":
                         date = word
+                continue
             
             if "Galleri" in line:
-                type = "Galleri"    
+                typen = 'Galleri'    
                 lineNo = 3
-            if "Balkong" in line:
-                type = "Balkong"
+            elif "Balkong" in line:
+                typen = 'Balkong'
                 lineNo = 4
-            if "Parkett" in line:
-                type = "Parkett"
+            elif "Parkett" in line:
+                typen = 'Parkett'
                 lineNo = 10
             
+            
             else:
-                seatNo = 1  
+                seatNo = 0  
                 stringLength = len(line)
                 slicedLine = line[stringLength::-1]
+                print(slicedLine)
                 for seat in slicedLine:
-                    if seat == 1: #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
-                        cursor.execute("""
-                            UPDATE Billett 
-                            SET Salgsstatus = 1 
-                            WHERE (Billett.StolID = (SELECT StolID 
-                                                    FROM Stol 
-                                                    WHERE StolNR = :seatNo AND RadNR = :lineNo AND Typen = :plassering)) AND Billett.ForestillingsID = ()
-                        """, {"seatNo": seatNo, "lineNo": lineNo, "plassering": type})
+                    if seat == '1': #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
+                        cursor.execute('''
+                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
+                            VALUES ((SELECT StolID 
+                                       FROM Stol
+                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
+                                       1, 2, (SELECT ForestillingID 
+                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
+                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 2));
+                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+                        print(f"Sete {seatNo} {lineNo} satt inn")
+                    elif seat == '0':
+                        cursor.execute('''
+                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
+                            VALUES ((SELECT StolID 
+                                       FROM Stol 
+                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
+                                       0, 2, (SELECT ForestillingID 
+                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
+                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 2));
+                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+                        print(f"Sete {seatNo} {lineNo} satt inn")
+
                     seatNo += 1
                 lineNo -= 1
 

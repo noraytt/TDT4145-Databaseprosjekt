@@ -1,8 +1,14 @@
 import sqlite3 as sql
 from datetime import datetime as dt
 
-con = sql.connect('teaterdb.sql')
+con = sql.connect('teater.sqlite')
 cursor = con.cursor()
+
+
+cursor.execute('''INSERT INTO Kunde (KundeID, Navn, Mobilnummer, Adresse) 
+                    VALUES (1, 'TestUser', 00000000, 'Prisens Gate 1');
+               ''')
+
 
 # This function buys 9 adult tickets to the show: "Størst av alt er kjærligheten", on february 3rd 2024
 def buyAdultTickets():
@@ -10,8 +16,8 @@ def buyAdultTickets():
     # Find all available seats for the show
     cursor.execute("""
         SELECT Stol.StolId, Stol.RadNR, Stol.Typen
-        FROM Stol LEFT JOIN Billett 
-                  ON Stol.StolId = Billett.StolId AND Billett.TeaterstykkeID = 2 AND Billett.ForestillingsId = 1 AND Billett.Salgsstatus = 0
+        FROM Stol INNER JOIN Billett ON Stol.StolId = Billett.StolId
+        WHERE Billett.TeaterstykkeID = 2 AND Billett.ForestillingId = 1 AND Billett.Salgsstatus = 0
     """)
 
     availableSeats = cursor.fetchall()  
@@ -58,8 +64,10 @@ def calculateTotalPrice():
         FROM Billettpris 
         WHERE Billettpris.TeaterstykkeID = 2
     """)
-    price = cursor.fetchone()
+    price = cursor.fetchone()[0]
+    print(price)
     totalPrice = price * 9
+    print(totalPrice)
     print(f"Totalprice for the 9 tickets is: {totalPrice}")
 
 
@@ -73,13 +81,13 @@ def purchaseTickets(chosenSeats):
         cursor.execute("""
             UPDATE Billett 
             SET Salgsstatus = 1 
-            WHERE (Billett.StolID = :seatId AND Billett.TeaterstykkeID = 2 AND Billett.ForestillingsID = 1)
+            WHERE (Billett.StolID = :seatId AND Billett.TeaterstykkeID = 2 AND Billett.ForestillingID = 1)
         """, {"seatId": seatId})
         cursor.execute("""
             INSERT INTO Billettkjoep (BillettID, KundeID, Dato, Tidspunkt)
             VALUES ((SELECT BillettID
                     FROM Billett
-                    WHERE (Billett.StolID = :seatId AND Billett.Teaterstykke = 2 AND Billett.ForestillingsID = 1)), KUNDEID, :dateString, :timeString)
+                    WHERE (Billett.StolID = :seatId AND Billett.TeaterstykkeID = 2 AND Billett.ForestillingID = 1)), 1, :dateString, :timeString)
             """, {"seatId": seatId, "dateString": dateString, "timeString": timeString})
     con.commit()
     print("Purchase successful")
@@ -90,5 +98,7 @@ def findNineSeatsInARow(seatsByRow):
         if len(seatsByRow[row]) >= 9:
             return seatsByRow[row][:9]
     return None
+
+buyAdultTickets()
 
 con.close()
