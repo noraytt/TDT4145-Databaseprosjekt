@@ -5,11 +5,6 @@ con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 
-cursor.execute('''INSERT INTO Kunde (KundeID, Navn, Mobilnummer, Adresse) 
-                    VALUES (1, 'DummyUser', 00000000, 'Prisens Gate 1');
-               ''')
-
-
 # This function buys 9 adult tickets to the show: "Størst av alt er kjærligheten", on february 3rd 2024
 def buyAdultTickets():
 
@@ -65,9 +60,7 @@ def calculateTotalPrice():
         WHERE Billettpris.TeaterstykkeID = 2
     """)
     price = cursor.fetchone()[0]
-    print(price)
     totalPrice = price * 9
-    print(totalPrice)
     print(f"Totalprice for the 9 tickets is: {totalPrice}")
 
 

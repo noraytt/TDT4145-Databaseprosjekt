@@ -2,7 +2,6 @@ import sys
 import sqlite3 as sql
 from datetime import datetime as dt
 
-
 con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
@@ -17,10 +16,11 @@ filePath = sys.argv[1]
 # Open textfile in read-mode and scan the contents of the file, one line at a time 
 try:
     with open(filePath, 'r') as file:
-        typen = None
+        type = None
         now = dt.now()
         dateString = now.strftime("%Y-%m-%d")
         timeString = now.strftime("%H:%M:%S")
+        lineNo = 19
         for line in file:
             
             if "Dato" in line:
@@ -31,21 +31,20 @@ try:
                 continue
             
             if "Galleri" in line:
-                typen = 'Galleri'    
-                lineNo = 3
-            elif "Balkong" in line:
-                typen = 'Balkong'
-                lineNo = 4
+                typen = 'Galleri' 
+                seatNo = 524
             elif "Parkett" in line:
                 typen = 'Parkett'
-                lineNo = 10
+                seatNo = 504
             
-            
-            else:
-                seatNo = 0  
+            else:   
                 stringLength = len(line)
-                slicedLine = line[stringLength::-1]
-                print(slicedLine)
+                slicedLine = line[stringLength::-1].strip()
+                if stringLength < 7:
+                    lineNo = 19
+                else:
+                    lineNo = lineNo - 1
+
                 for seat in slicedLine:
                     if seat == '1': 
                         cursor.execute('''
@@ -53,7 +52,7 @@ try:
                             SET Salgsstatus = 1
                             WHERE StolId = (SELECT StolID FROM Stol where Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering)
                                    AND Billett.ForestillingID =  (SELECT ForestillingID FROM Forestilling WHERE Forestilling.Dato = :dato)
-                                   AND Billett.TeaterstykkeID = 2   
+                                   AND Billett.TeaterstykkeID = 1   
                                        
                             ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
 
@@ -62,12 +61,15 @@ try:
                             SELECT BillettID, 1, :date, :time 
                             FROM Billett WHERE Billett.StolId = (SELECT StolID FROM Stol where Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering)
                                     AND Billett.ForestillingID =  (SELECT ForestillingID FROM Forestilling WHERE Forestilling.Dato = :dato)
-                                    AND Billett.TeaterstykkeID = 2                               
+                                    AND Billett.TeaterstykkeID = 1                               
                             ;
                             ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato':date, 'date': (dateString), 'time': (timeString) })
-                    seatNo += 1
-                lineNo -= 1
+                        
+             
+
+                    seatNo = seatNo-1
         print('All purchases were successfylly added')
+
 
 # Error handling
 except FileNotFoundError:

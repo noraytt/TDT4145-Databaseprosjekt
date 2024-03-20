@@ -20,11 +20,11 @@ except Exception as e:
     print(f"An error occured: {e}")
 
 # Find the shows on the specified date
-cursor.execute("""
+cursor.execute('''
     SELECT ForestillingID, TeaterstykkeID, Navn, SalID, Starttid
     FROM Forestilling NATURAL JOIN Teaterstykke
     WHERE Dato = :date
-""", {"date": date})
+''', {'date': date})
 
 shows = cursor.fetchall()
 if shows != []:
@@ -32,17 +32,17 @@ if shows != []:
 
 # Find number of sold tickets for each show
 for show in shows:
-    cursor.execute("""
+    cursor.execute('''
         SELECT COUNT(BillettID) AS AntallSolgt
         FROM Billett
         WHERE ForestillingID = :showID AND TeaterstykkeID = :playID AND Salgsstatus = 1
-    """, {"showID": show[0], "playID": show[1]})
+    ''', {'showID': show[0], 'playID': show[1]})
     soldTickets = cursor.fetchone()
-    cursor.execute("""
+    cursor.execute('''
         SELECT Navn
         FROM Sal
         WHERE SalID = :salID
-    """, {"salID": show[3]})
+    ''', {'salID': show[3]})
     auditoriumName = cursor.fetchone()[0]
     print(f"The show {show[2]}, in auditorium {auditoriumName}, performed on {date}, time: {show[4]} has {soldTickets[0]} sold tickets")
 
