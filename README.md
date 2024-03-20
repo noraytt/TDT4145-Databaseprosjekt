@@ -119,6 +119,8 @@ Nå er databaseapplikasjonen ferdig satt opp og initialisert, og vi kan utføre 
 - Brukerhistorie 4:
 
   "Ta inn en dato og skriv ut hvilke forestillinger som finnes på denne datoen, og hvor mange billetter som er solgt til hver av disse. Ta også med forestillinger hvor det ikke er solgt noen billetter."
+  
+  _Obs! Her har vi glemt å skrive kommandoen vi skrev i bildet, som var:_ `python usecase4.py 2024-02-03`
 
   ![output_terminal](images/usecase4.png)
 
