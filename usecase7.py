@@ -1,8 +1,3 @@
-'''Du skal lage et Pythonprogram (og SQL) som 
-tar et skuespillernavn og 
-finner hvilke skuespilllere de har spilt med i samme akt. 
-Skriv ut navn på begge og hvilket skuespill det skjedde'''
-
 import sqlite3 as sql
 from datetime import datetime as dt
 import sys
@@ -11,7 +6,7 @@ con = sql.connect('teater.sqlite')
 cursor = con.cursor()
 
 if len(sys.argv) < 3:
-    print("Format: python3 usecase4.py Name (MiddleName) Surname")
+    print("Format: python3 usecase7.py Name (MiddleName) Surname")
     sys.exit(1)
 
 if (sys.argv[1][0].islower() or sys.argv[2][0].islower()):
