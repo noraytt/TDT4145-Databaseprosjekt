@@ -46,5 +46,7 @@ if len(coactors) > 0:
     print(f"Skuespiller {name} har spilt i {coactors[0][2]} med:")
     for coactor in coactors:
         print(coactor[1])
+else:
+    print(f"{name} er ikke en skuespiller eller har spilt akten alene.")
 
 con.close()
