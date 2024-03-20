@@ -26,7 +26,7 @@ cursor.execute('''SELECT StolID FROM Stol WHERE Stol.StolID < 517''')
 stoler = cursor.fetchall()
 
 
-#Add tickets to Hovedscene
+# Add tickets to Hovedscenen for all shows
 for teaterstykkeID, forestillingID in forestillinger:
     for stol in stoler:
             cursor.execute('''INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID,  ForestillingID)
@@ -82,7 +82,7 @@ for i in range(1,333):
         elif i < 333:
             cursor.execute(query, (i-315, 3, type, 2))
 
-# Add tickets to gamle scene
+# Add tickets to gamle scene for all shows
 cursor.execute('''SELECT TeaterstykkeID, ForestillingID FROM Forestilling WHERE Forestilling.TeaterstykkeID = 2''')
 forestillinger = cursor.fetchall()
 cursor.execute('''SELECT StolID FROM Stol WHERE Stol.StolID > 516''')
@@ -96,6 +96,7 @@ for teaterstykkeID, forestillingID in forestillinger:
 
 
 print('All chairs successfully added to the auditoriums')
+print('All tickets for all shows successfylly added')
 
 
 

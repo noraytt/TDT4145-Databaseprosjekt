@@ -1,13 +1,3 @@
-/* Sette inn:
--saler - GOOD
--stoler - NOT GOOD
--teaterstykker - GOOD
--forestillinger - GOOD
--akter
--roller
--skuespillere
--medvirkende
- */
 
 INSERT INTO Ansatt (Identifikator, Navn, Epost, Ansattstatus)
 VALUES (1, 'Arturo Scotti', NULL, 'Fast'),

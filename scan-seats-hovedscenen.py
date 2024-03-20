@@ -73,7 +73,7 @@ try:
              
 
                     seatNo = seatNo-1
-        print('All tickets and purchases were successfylly added')
+        print('All purchases were successfylly added')
 
 
 # Error handling

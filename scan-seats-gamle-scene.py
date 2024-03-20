@@ -67,7 +67,7 @@ try:
                             ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato':date, 'date': (dateString), 'time': (timeString) })
                     seatNo += 1
                 lineNo -= 1
-        print('All tickets and purchases were successfylly added')
+        print('All purchases were successfylly added')
 
 # Error handling
 except FileNotFoundError:
