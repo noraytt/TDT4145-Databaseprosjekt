@@ -7,10 +7,11 @@ Dette prosjektet er skrevet og gjennomført av Nora Ytterbø og Hanna Kongelf, v
 Alt av antagelser, oppskrift for kjøring av program samt de tekstlige resultatene fra brukerhistorienes spørringer er vedlagt i denne README.md- filen.
 
 ## Endringer i SQL skjema:
-
-- Fjernet BillettklasseID fra Teaterstykke siden Billettpris refererer til TeaterstykkeID
-- Endret måten å kunnngjøre Primary Key
-- Mer
+Det er i utgangspunktet ikke noen større strukturelle endringer fra levering 1 til levering 2. Dette betyr at ER'diagrammet fortsattt gjelder, med unntak av endring eller fjerning av noen type attributter. Det er også gjort noen mindre endringer på SQL scriptet.
+Oversikt over endring:
+- Fjernet BillettklasseID fra Teaterstykke siden Billettpris refererer til TeaterstykkeID, trenger ikke være dobbelt
+- Endret måten å kunnngjøre Primærnøkkelen i SQL scriptet
+- Latt det være mulig å ikke registrere e-post på ansatte, da denne dataen ikke var tilgjengelig på nettsiden
 
 ## Oppskrift: _hvordan kjøre programmet_
 
@@ -20,6 +21,9 @@ Databaseappliksjonen har et tekstbasert brukergrensesnitt som kjøres i et termi
 
 _Hvordan skrive i terminalen:_
 I terminalen er det viktig at alt skrives ordrett inn slik som det står i oppskriften under. Hvis noe står inne i <>-tegn, skal man erstatte det inni med ønsket input på samme format, og IKKE ta med <>-tegnene. Det skal heller ikke tas med fnutter (""-tegn) noen steder.
+
+_Dersom du skriver feil:_
+Dersom du skulle skrive feil i terminalen, eller vil starte på nytt, kan du skrive `del teater.sqlite` i terminalen, og starte oppsettet på nytt.
 
 ### Oppsett og initialisering:
 
@@ -146,6 +150,6 @@ Nå er databaseapplikasjonen ferdig satt opp og initialisert, og vi kan utføre 
 
   ![output_terminal](images/usecase7error.png)
 
-## ytterligere kommentarer; koden og tekstlige resultater
+## Ytterligere kommentarer; koden og tekstlige resultater
 
 - I brukerhistorie 4 får vi i tillegg til forventet output en warning angående DATE-formatet. Den går ut på at default date formatet vi benytter avvikles fra Python versjon 3.12. Ettersom prosjektet har kort tidshorisont er det fortsatt brukbart i vårt tilfelle, men hvis dette skulle vært en langsiktig oppgave burde man sett på andre løsninger slik som beskjeden anbefaler.
