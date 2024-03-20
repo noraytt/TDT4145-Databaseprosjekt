@@ -275,3 +275,5 @@ VALUES ('Regi og musikkutvelgelse', 1, 13),
 
 
 
+INSERT INTO Kunde (KundeID, Navn, Mobilnummer, Adresse) 
+VALUES (1, 'DummyUser', 00000000, 'Prisens Gate 1');

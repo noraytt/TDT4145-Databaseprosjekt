@@ -1,5 +1,6 @@
 import sys
 import sqlite3 as sql
+from datetime import datetime as dt
 
 con = sql.connect('teater.sqlite')
 cursor = con.cursor()
@@ -16,6 +17,9 @@ filePath = sys.argv[1]
 try:
     with open(filePath, 'r') as file:
         type = None
+        now = dt.now()
+        dateString = now.strftime("%Y-%m-%d")
+        timeString = now.strftime("%H:%M:%S")
         lineNo = 19
         for line in file:
             
@@ -57,10 +61,19 @@ try:
                                        
                             ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
 
-                        print(f"Sete {seatNo} {lineNo} satt inn")
+                        cursor.execute('''
+                            INSERT INTO Billettkjoep (BillettID, KundeID, Dato, Tidspunkt)
+                            SELECT BillettID, 1, :date, :time 
+                            FROM Billett WHERE Billett.StolId = (SELECT StolID FROM Stol where Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering)
+                                    AND Billett.ForestillingID =  (SELECT ForestillingID FROM Forestilling WHERE Forestilling.Dato = :dato)
+                                    AND Billett.TeaterstykkeID = 1                               
+                            ;
+                            ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato':date, 'date': (dateString), 'time': (timeString) })
+                        
              
 
                     seatNo = seatNo-1
+        print('All tickets and purchases were successfylly added')
 
 
 # Error handling

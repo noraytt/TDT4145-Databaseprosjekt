@@ -6,7 +6,7 @@ cursor = con.cursor()
 
 
 cursor.execute('''INSERT INTO Kunde (KundeID, Navn, Mobilnummer, Adresse) 
-                    VALUES (1, 'TestUser', 00000000, 'Prisens Gate 1');
+                    VALUES (1, 'DummyUser', 00000000, 'Prisens Gate 1');
                ''')
 
 

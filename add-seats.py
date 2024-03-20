@@ -95,6 +95,7 @@ for teaterstykkeID, forestillingID in forestillinger:
                        ''', {'s':stol[0], 'teater':teaterstykkeID, 'forestilling':forestillingID})
 
 
+print('All chairs successfully added to the auditoriums')
 
 
 
