@@ -28,7 +28,7 @@ try:
                 continue
             
             if "Galleri" in line:
-                typen = 'Galleri'    #HVORDAN BLIR DET MED RADNR HER EGT? TRODDE VI IKKE GA DISSE SETENE RADNR... I SÅ FALL, HVA GJØR JEG I "UPDATE"-SETNINGEN
+                typen = 'Galleri' 
                 seatNo = 524
                 print(typen)
             elif "Parkett" in line:
@@ -47,35 +47,21 @@ try:
                 print(seatNo, lineNo)
 
                 for seat in slicedLine:
-                    if seat == '1': #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
+                    if seat == '1': 
                         cursor.execute('''
-                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
-                            VALUES ((SELECT StolID 
-                                       FROM Stol
-                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
-                                       1, 2, (SELECT ForestillingID 
-                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
-                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 1));
-                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+                            UPDATE Billett           
+                            SET Salgsstatus = 1
+                            WHERE StolId = (SELECT StolID FROM Stol where Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering)
+                                   AND Billett.ForestillingID =  (SELECT ForestillingID FROM Forestilling WHERE Forestilling.Dato = :dato)
+                                   AND Billett.TeaterstykkeID = 1   
+                                       
+                            ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
+
                         print(f"Sete {seatNo} {lineNo} satt inn")
-                    elif seat == '0':
-                        cursor.execute('''
-                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
-                            VALUES ((SELECT StolID 
-                                       FROM Stol 
-                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
-                                       0, 2, (SELECT ForestillingID 
-                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
-                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 1));
-                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
-                        print(f"Sete {seatNo} {lineNo} satt inn")                        
+             
 
                     seatNo = seatNo-1
-                # if type == "Parkett":
-                #     lineNo -= 1
-                #     seatNo -= 55
-                # if type == "balkong":
-                #     seatNo -= 9
+
 
 # Error handling
 except FileNotFoundError:

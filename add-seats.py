@@ -20,6 +20,20 @@ for i in range (1, 505):
             VALUES (:nr, :rad, 'Parkett', 1)''', {'nr':i,'rad':lineNo })
 
 
+cursor.execute('''SELECT TeaterstykkeID, ForestillingID FROM Forestilling WHERE Forestilling.TeaterstykkeID = 1''')
+forestillinger = cursor.fetchall()
+cursor.execute('''SELECT StolID FROM Stol WHERE Stol.StolID < 517''')
+stoler = cursor.fetchall()
+
+
+#Add tickets to Hovedscene
+for teaterstykkeID, forestillingID in forestillinger:
+    for stol in stoler:
+            cursor.execute('''INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID,  ForestillingID)
+                       VALUES (:s, 0, :teater, :forestilling);
+                       ''', {'s':stol[0], 'teater':teaterstykkeID, 'forestilling':forestillingID})
+
+
 # Inserting chairs for "Gamle Scene"
 query = '''
     INSERT INTO Stol (StolNR, RadNR, Typen, SalID)
@@ -67,6 +81,20 @@ for i in range(1,333):
             cursor.execute(query, (i-297, 2, type, 2))
         elif i < 333:
             cursor.execute(query, (i-315, 3, type, 2))
+
+# Add tickets to gamle scene
+cursor.execute('''SELECT TeaterstykkeID, ForestillingID FROM Forestilling WHERE Forestilling.TeaterstykkeID = 2''')
+forestillinger = cursor.fetchall()
+cursor.execute('''SELECT StolID FROM Stol WHERE Stol.StolID > 516''')
+stoler = cursor.fetchall()
+
+for teaterstykkeID, forestillingID in forestillinger:
+    for stol in stoler:
+            cursor.execute('''INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID,  ForestillingID)
+                       VALUES (:s, 0, :teater, :forestilling);
+                       ''', {'s':stol[0], 'teater':teaterstykkeID, 'forestilling':forestillingID})
+
+
 
 
 

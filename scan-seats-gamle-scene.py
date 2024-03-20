@@ -42,29 +42,18 @@ try:
                 slicedLine = line[stringLength::-1]
                 print(slicedLine)
                 for seat in slicedLine:
-                    if seat == '1': #HER MÅ JEG FORTSATT HA RIKTIG FORESTILLING SOM DENNE BILLETTEN HØRER TIL
+                    if seat == '1': 
                         cursor.execute('''
-                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
-                            VALUES ((SELECT StolID 
-                                       FROM Stol
-                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
-                                       1, 2, (SELECT ForestillingID 
-                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
-                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 2));
-                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
-                        print(f"Sete {seatNo} {lineNo} satt inn")
-                    elif seat == '0':
-                        cursor.execute('''
-                            INSERT INTO Billett (StolID, Salgsstatus, TeaterstykkeID, ForestillingID)
-                            VALUES ((SELECT StolID 
-                                       FROM Stol 
-                                       WHERE Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering),
-                                       0, 2, (SELECT ForestillingID 
-                                                FROM Forestilling JOIN Teaterstykke ON Forestilling.TeaterstykkeID = Teaterstykke.TeaterstykkeID
-                                                WHERE Forestilling.Dato = :dato AND Teaterstykke.TeaterstykkeID = 2));
-                                       ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
-                        print(f"Sete {seatNo} {lineNo} satt inn")
+                            UPDATE Billett           
+                            SET Salgsstatus = 1
+                            WHERE StolId = (SELECT StolID FROM Stol where Stol.StolNR = :seatNo AND Stol.RadNR = :lineNo AND Stol.Typen = :plassering)
+                                   AND Billett.ForestillingID =  (SELECT ForestillingID FROM Forestilling WHERE Forestilling.Dato = :dato)
+                                   AND Billett.TeaterstykkeID = 2   
+                                       
+                            ''', {'seatNo': seatNo,  "lineNo": lineNo, "plassering": typen, 'dato': date })
 
+
+                        print(f"Sete {seatNo} {lineNo} satt inn")
                     seatNo += 1
                 lineNo -= 1
 
